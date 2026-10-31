@@ -237,6 +237,8 @@ class Language:
                 if "{" not in key or not isinstance(translation, str):
                     continue
                 parts = re.split(r"\{(\w+)\}", key)
+                if not "".join(parts[0::2]).strip():
+                    continue  # placeholders only: would match (and re-translate) any text
                 regex = ""
                 names = []
                 for i, part in enumerate(parts):
