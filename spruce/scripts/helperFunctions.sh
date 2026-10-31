@@ -941,6 +941,17 @@ get_ui_language() {
     jq -r '.language // empty' /mnt/SDCARD/Saves/spruce/shared-system.json 2>/dev/null
 }
 
+# Echo $1 in the UI language. Only text drawn without PyUI needs this (the
+# legacy display helper): messages sent to PyUI are translated there.
+translate_text() {
+    _lang="$(get_ui_language)"
+    if [ -z "$_lang" ] || [ "$_lang" = "English" ] || [ ! -f "/mnt/SDCARD/App/PyUI/lang/$_lang.json" ]; then
+        printf '%s' "$1"
+        return
+    fi
+    "$(get_python_path)" /mnt/SDCARD/App/PyUI/main-ui/translate_text.py "$_lang" "$1" 2>/dev/null || printf '%s' "$1"
+}
+
 log_and_display_message(){
     log_message "$1"
     display_message "$(printf '{"cmd":"MESSAGE","args":["%s"]}' "$(json_escape "$1")")"

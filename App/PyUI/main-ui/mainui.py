@@ -111,7 +111,7 @@ def check_for_msg_display(args):
                 PyUiLogger.get_logger().error(f"Error parsing message duration: ", exc_info=True)
 
         try:
-            Display.display_message(args.msgDisplay, duration)
+            Display.display_message(Language.shell_message(args.msgDisplay), duration)
         except Exception as e:
             PyUiLogger.get_logger().error(f"Error displaying message: ", exc_info=True)
 

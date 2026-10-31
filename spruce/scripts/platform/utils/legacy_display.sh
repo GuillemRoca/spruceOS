@@ -97,6 +97,8 @@ display() {
     bg_g=$(echo "$bg_color" | cut -c3-4)
     bg_b=$(echo "$bg_color" | cut -c5-6)
 
+    command -v translate_text >/dev/null 2>&1 && [ "$text" != " " ] && text="$(translate_text "$text")"
+
     # Set font to DEFAULT_FONT if it's empty
     if [ -z "$font" ]; then
         font="$DEFAULT_FONT"
