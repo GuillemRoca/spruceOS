@@ -716,7 +716,11 @@
         "blink 2": "parpelleig 2",
         "blink 3": "parpelleig 3",
         "rainbow": "arc iris",
-        "rainbow multi": "arc iris múltiple"
+        "rainbow multi": "arc iris múltiple",
+        "TEXT_LEFT_IMAGE_RIGHT": "Text a l'esquerra, imatge a la dreta",
+        "TEXT_RIGHT_IMAGE_LEFT": "Text a la dreta, imatge a l'esquerra",
+        "TEXT_ABOVE_IMAGE": "Text a sobre de la imatge",
+        "TEXT_BELOW_IMAGE": "Text a sota de la imatge"
     },
     "gameSystems": {
         "MEDIA": "Multimèdia"
