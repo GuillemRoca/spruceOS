@@ -209,7 +209,9 @@ class Language:
 
         Keys may contain {placeholders}: "Now downloading {name}!" matches
         "Now downloading Foo!" and the captured text is substituted into the
-        translation. Unknown text is returned unchanged."""
+        translation, itself translated when it is a known text (a script may
+        pass a whole sentence as the argument). Unknown text is returned
+        unchanged."""
         if not text or not isinstance(text, str):
             return text
         entries = cls._data.get(section)
@@ -217,12 +219,12 @@ class Language:
             return text
         if text in entries:
             return entries[text]
-        for pattern, translation in cls._templates_for(section, entries):
+        for pattern, names, translation in cls._templates_for(section, entries):
             match = pattern.fullmatch(text)
             if match:
                 result = translation
-                for name, value in match.groupdict().items():
-                    result = result.replace("{" + name + "}", value)
+                for index, name in enumerate(names):
+                    result = result.replace("{" + name + "}", cls.translate(section, match.group(f"p{index}")))
                 return result
         return text
 
@@ -236,21 +238,30 @@ class Language:
                     continue
                 parts = re.split(r"\{(\w+)\}", key)
                 regex = ""
-                seen = set()
+                names = []
                 for i, part in enumerate(parts):
                     if i % 2 == 0:
                         regex += re.escape(part)
-                    elif part in seen:
-                        regex += f"(?P={part})"
+                    elif part in names:
+                        regex += f"(?P=p{names.index(part)})"
                     else:
-                        seen.add(part)
-                        regex += f"(?P<{part}>.+?)"
+                        regex += f"(?P<p{len(names)}>.+?)"
+                        names.append(part)
                 try:
-                    templates.append((re.compile(regex, re.DOTALL), translation))
+                    templates.append((re.compile(regex, re.DOTALL), names, translation))
                 except re.error:
-                    PyUiLogger.get_logger().warning(f"Bad translation template in {section}: {key}")
+                    logger = PyUiLogger.get_logger()
+                    if logger:
+                        logger.warning(f"Bad translation template in {section}: {key}")
             cls._template_cache[section] = templates
         return templates
+
+    @classmethod
+    def shell_message(cls, text):
+        """Text a shell script sent to be shown (display helpers, -msgDisplay).
+        Scripts send English; shellMessages maps it, {placeholders} standing
+        in for the parts the script fills in."""
+        return cls.translate("shellMessages", text)
 
     @classmethod
     def option_list_text(cls, text):
