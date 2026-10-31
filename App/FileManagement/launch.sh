@@ -19,6 +19,13 @@ if [ -f "$HOME/config.ini" ]; then
            -e 's/^ScreenHeight=.*/ScreenHeight=0/' \
            -e 's/^Rotation=.*/Rotation=0/' "$HOME/config.ini"
 
+    # Follow the UI language when vtree has a file for it (lang/<Language>.ini
+    # uses the same names as PyUI's lang/<Language>.json).
+    ui_language="$(get_ui_language)"
+    if [ -n "$ui_language" ] && [ -f "$HOME/lang/$ui_language.ini" ]; then
+        sed -i "s/^Language=.*/Language=$ui_language/" "$HOME/config.ini"
+    fi
+
     # handle swapped X/Y on RGB30. Can this be handled more gracefully by editing a gamecontrollerdb.txt?
     if [ "$PLATFORM" = "RGB30" ] || [ "$PLATFORM" = "RGB20SX" ] || [ "$PLATFORM" = "A10Mini" ] || [ "$PLATFORM" = "A10MiniV4" ] || [ "$PLATFORM" = "XUMiniM" ] || [ "$PLATFORM" = "G350" ] || [ "$PLATFORM" = "V10" ]; then
         sed -i -e 's/^OskKeyBksp=x/OskKeyBksp=y/' \
