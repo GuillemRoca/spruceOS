@@ -1,6 +1,8 @@
-"""Every user-facing string, in one place (ready to map onto PyUI's ``Language`` later).
+"""Every user-facing string, in one place.
 
-Templates use ``str.format`` named fields.
+Templates use ``str.format`` named fields. ``apply_language`` replaces them with the ``cheevos``
+section of PyUI's language file (``App/PyUI/lang/<Language>.json``), keyed by constant name; a
+dict constant takes a dict of the keys to translate, a tuple a list of the same length.
 """
 
 from __future__ import annotations
@@ -301,3 +303,28 @@ YESTERDAY = "yesterday"
 DAYS_AGO = "{count} days ago"
 POINT = "{count} pt"
 POINTS = "{count} pts"
+MONTHS_SHORT = ("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+
+
+def apply_language(section: dict | None) -> None:
+    """Override the strings above with a language's translations.
+
+    Callers read constants as ``strings.NAME`` at use time, so replacing module globals is enough.
+    Dict constants are updated in place (only the keys given), tuples take a list.
+
+    Args:
+        section: The language file's ``cheevos`` section: constant name to translation.
+    """
+    if not isinstance(section, dict):
+        return
+    module = globals()
+    for name, value in section.items():
+        current = module.get(name)
+        if not name.isupper() or current is None:
+            continue
+        if isinstance(current, dict) and isinstance(value, dict):
+            current.update({key: text for key, text in value.items() if key in current})
+        elif isinstance(current, tuple) and isinstance(value, list) and len(value) == len(current):
+            module[name] = tuple(value)
+        elif isinstance(current, str) and isinstance(value, str):
+            module[name] = value

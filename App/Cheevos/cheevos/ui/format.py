@@ -11,12 +11,13 @@ HOUR = 60 * MINUTE
 DAY = 24 * HOUR
 _RELATIVE_DAYS = 7
 _KIB = 1024
-# (upper bound in seconds, unit in seconds, template) for relative times under a week.
+# (upper bound in seconds, unit in seconds, template name) for relative times under a week. Names,
+# not the strings themselves, so a translation applied after import is picked up.
 _RELATIVE_STEPS = (
-    (MINUTE, 1, strings.JUST_NOW),
-    (HOUR, MINUTE, strings.MINUTES_AGO),
-    (DAY, HOUR, strings.HOURS_AGO),
-    (2 * DAY, DAY, strings.YESTERDAY),
+    (MINUTE, 1, "JUST_NOW"),
+    (HOUR, MINUTE, "MINUTES_AGO"),
+    (DAY, HOUR, "HOURS_AGO"),
+    (2 * DAY, DAY, "YESTERDAY"),
 )
 
 
@@ -54,7 +55,7 @@ def local_datetime(epoch: int | None) -> str:
     Returns:
         The local time, or ``""`` for ``None``.
     """
-    return time.strftime("%d %b %Y %H:%M", time.localtime(epoch)) if epoch else ""
+    return f"{local_date(epoch)} {time.strftime('%H:%M', time.localtime(epoch))}" if epoch else ""
 
 
 def local_date(epoch: int | None) -> str:
@@ -66,7 +67,10 @@ def local_date(epoch: int | None) -> str:
     Returns:
         The local date, or ``""`` for ``None``.
     """
-    return time.strftime("%d %b %Y", time.localtime(epoch)) if epoch else ""
+    if not epoch:
+        return ""
+    local = time.localtime(epoch)
+    return f"{local.tm_mday:02d} {strings.MONTHS_SHORT[local.tm_mon - 1]} {local.tm_year}"
 
 
 def ago(epoch: int | None, now: float) -> str:
@@ -86,7 +90,7 @@ def ago(epoch: int | None, now: float) -> str:
         return local_date(epoch)
     for limit, unit, template in _RELATIVE_STEPS:
         if elapsed < limit:
-            return template.format(count=int(elapsed // unit))
+            return getattr(strings, template).format(count=int(elapsed // unit))
     return strings.DAYS_AGO.format(count=int(elapsed // DAY))
 
 

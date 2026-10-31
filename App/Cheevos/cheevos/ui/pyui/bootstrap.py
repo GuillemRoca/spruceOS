@@ -15,6 +15,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from cheevos.ui import strings
 from cheevos.ui.pyui import texture_budget
 
 logger = logging.getLogger(__name__)
@@ -108,6 +109,7 @@ def bootstrap(setup: PyUiSetup, device_factory: Callable[[], object]) -> None:
     UserConfig.reload_config()
     CfwSystemConfig.init(str(setup.cfw_config_path) if setup.cfw_config_path else None)
     Language.init()
+    strings.apply_language(Language.get("cheevos"))
 
     Device.init(device_factory())
     device = Device.get_device()

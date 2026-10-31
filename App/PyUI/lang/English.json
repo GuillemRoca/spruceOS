@@ -546,7 +546,9 @@
         "blink 2": "blink 2",
         "blink 3": "blink 3",
         "rainbow": "rainbow",
-        "rainbow multi": "rainbow multi"
+        "rainbow multi": "rainbow multi",
+        "Casual": "Casual",
+        "Hardcore": "Hardcore"
     },
     "runningTask": "Running {name}...",
     "finishedRunningTask": "Finished: {name}",
