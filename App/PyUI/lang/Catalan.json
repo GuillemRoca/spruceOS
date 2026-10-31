@@ -495,7 +495,7 @@
     "wifiProcessStart": "S'està iniciant el procés de la WiFi",
     "wifiDhcpStart": "S'està iniciant l'assignació de l'adreça IP",
     "noValidRoms": "No hi ha cap ROM vàlida per iniciar.",
-    "selectOptionPrompt": "Selecciona: {name}",
+    "selectOptionPrompt": "{name}",
     "patchingThemeAssets": "S'està adaptant el tema a recursos més ràpids",
     "noCoreFound": "No s'ha trobat cap nucli",
     "aboutThisDevice": "Quant a aquest dispositiu",
@@ -646,7 +646,7 @@
         "follows defaults if set to False": "segueix els valors per defecte si està desactivat",
         "during emulation": "durant l'emulació",
         "For the Cheevos app: retroachievements.org > Settings > Applications": "Per a l'app Cheevos: retroachievements.org > Settings > Applications",
-        "Earn Casual Cheevos Offline": "Aconsegueix assoliments casual sense connexió",
+        "Earn Casual Cheevos Offline": "Aconsegueix assoliments en mode informal sense connexió",
         "Sends app version, device, cache counts and a hashed user ID daily": "Envia cada dia la versió de l'app, el dispositiu, els recomptes de la memòria cau i un ID d'usuari amb hash",
         "Headphone Audio Multiplier": "Multiplicador d'àudio dels auriculars"
     },
