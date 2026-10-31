@@ -447,5 +447,10 @@
         "TEXT_BELOW_IMAGE": "Text below image"
     },
     "runningTask": "Running {name}...",
-    "finishedRunningTask": "Finished: {name}"
+    "finishedRunningTask": "Finished: {name}",
+    "hiddenAppLabel": "{name}(Hidden)",
+    "hideApp": "Hide App",
+    "showHiddenApps": "Show Hidden Apps",
+    "appOptions": "App Options",
+    "appSubOptions": "{name} Sub Options"
 }
