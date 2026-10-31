@@ -1,6 +1,8 @@
-"""Every user-facing string, in one place (ready to map onto PyUI's ``Language`` later).
+"""Every user-facing string, in one place.
 
-Templates use ``str.format`` named fields.
+Templates use ``str.format`` named fields. ``apply_language`` replaces them with the ``cheevos``
+section of PyUI's language file (``App/PyUI/lang/<Language>.json``), keyed by constant name; a
+dict constant takes a dict of the keys to translate, a tuple a list of the same length.
 """
 
 from __future__ import annotations
@@ -302,3 +304,44 @@ YESTERDAY = "yesterday"
 DAYS_AGO = "{count} days ago"
 POINT = "{count} pt"
 POINTS = "{count} pts"
+MONTHS_SHORT = ("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+
+
+# The English strings, so a session started after a language change begins from them: the app
+# runs inside PyUI's process, so this module can outlive the session that translated it.
+_ENGLISH = {
+    name: dict(value) if isinstance(value, dict) else value
+    for name, value in globals().items()
+    if name.isupper()
+}
+
+
+def apply_language(section: dict | None) -> None:
+    """Show the strings above in a language: its translations over the English ones.
+
+    Callers read constants as ``strings.NAME`` at use time, so replacing module globals is enough.
+    Dict constants are updated in place (only the keys given), tuples take a list.
+
+    Args:
+        section: The language file's ``cheevos`` section: constant name to translation. ``None``
+            (or a language without one) puts the English strings back.
+    """
+    module = globals()
+    for name, english in _ENGLISH.items():
+        if isinstance(english, dict):
+            module[name].clear()
+            module[name].update(english)
+        else:
+            module[name] = english
+    if not isinstance(section, dict):
+        return
+    for name, value in section.items():
+        current = module.get(name)
+        if not name.isupper() or current is None:
+            continue
+        if isinstance(current, dict) and isinstance(value, dict):
+            current.update({key: text for key, text in value.items() if key in current})
+        elif isinstance(current, tuple) and isinstance(value, list) and len(value) == len(current):
+            module[name] = tuple(value)
+        elif isinstance(current, str) and isinstance(value, str):
+            module[name] = value

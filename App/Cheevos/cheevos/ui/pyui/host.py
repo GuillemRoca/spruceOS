@@ -10,18 +10,21 @@ from __future__ import annotations
 
 import logging
 
+from cheevos.ui import strings
 from cheevos.ui.pyui import texture_budget
 
 logger = logging.getLogger(__name__)
 
 
 def enter() -> None:
-    """Put PyUI's texture caches on the app's budget for the session."""
+    """Put PyUI's texture caches on the app's budget, and its language on the app's strings."""
     from devices.device import Device
     from display.display import Display
+    from menus.language.language import Language
 
     device = Device.get_device()
     texture_budget.install(Display, device.screen_width(), device.screen_height())
+    strings.apply_language(Language.get("cheevos"))
 
 
 def leave() -> None:
