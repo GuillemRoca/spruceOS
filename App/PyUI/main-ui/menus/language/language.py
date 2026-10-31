@@ -200,6 +200,23 @@ class Language:
         return text
 
     @classmethod
+    def option_list_text(cls, text):
+        """Display text for an entry, title or description of a JSON option list
+        (Settings > Tasks, and lists shell scripts show). The JSON keys stay in
+        English because they also name icons and are written back as results."""
+        if not text:
+            return text
+        return cls._data.get("optionListText", {}).get(text, text)
+
+    @classmethod
+    def running_task(cls, name: str) -> str:
+        return cls.label("runningTask", "Running {name}...").replace("{name}", name)
+
+    @classmethod
+    def finished_running_task(cls, name: str) -> str:
+        return cls.label("finishedRunningTask", "Finished: {name}").replace("{name}", name)
+
+    @classmethod
     def select_option_prompt(cls, name: str) -> str:
         template = cls.label("selectOptionPrompt", "Select a {name}")
         return template.replace("{name}", name)

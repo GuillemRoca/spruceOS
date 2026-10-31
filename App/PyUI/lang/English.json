@@ -445,5 +445,7 @@
         "TEXT_RIGHT_IMAGE_LEFT": "Text right, image left",
         "TEXT_ABOVE_IMAGE": "Text above image",
         "TEXT_BELOW_IMAGE": "Text below image"
-    }
+    },
+    "runningTask": "Running {name}...",
+    "finishedRunningTask": "Finished: {name}"
 }
