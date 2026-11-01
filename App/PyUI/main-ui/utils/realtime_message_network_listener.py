@@ -256,7 +256,7 @@ class RealtimeMessageNetworkListener:
             elif cmd == "IMAGE_AND_TEXT":
                 if args:
                     image_path = args[0]
-                    text = args[1]
+                    text = Language.shell_message(args[1])
                     self.logger.info(f"Rendering image: {image_path} with text: {text}")
                     Display.clear("")
                     Display.render_image_and_text(
@@ -272,7 +272,7 @@ class RealtimeMessageNetworkListener:
 
             elif cmd == "TEXT_WITH_PERCENTAGE_BAR":
                 if args:
-                    text = args[0]
+                    text = Language.shell_message(args[0])
                     percentage = self._parse_percentage(args[1])
                     self.logger.info(f"Rendering text: {text} w/ percentage bar: {percentage}%")
                     Display.clear("")
@@ -283,7 +283,7 @@ class RealtimeMessageNetworkListener:
                     self._render_percentage_bar(percentage)
                     if(len(args) > 2):
                         Display.write_message_multiline(
-                            Display.split_message(args[2], FontPurpose.LIST, clip_to_device_width=True), 
+                            Display.split_message(Language.shell_message(args[2]), FontPurpose.LIST, clip_to_device_width=True), 
                             Device.get_device().screen_height()*0.7
                         )
                     Display.present()
@@ -300,7 +300,7 @@ class RealtimeMessageNetworkListener:
 
             elif cmd == "MESSAGE":
                 if args:
-                    msg = " ".join(str(a) for a in args)
+                    msg = Language.shell_message(" ".join(str(a) for a in args))
                     self.logger.info(f"Displaying message: {msg}")
                     Display.display_message(msg)
                 else:
