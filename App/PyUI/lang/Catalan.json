@@ -903,6 +903,28 @@
         "Game Search": "Cerca de jocs",
         "{system} Search": "Cerca a {system}"
     },
+    "accentColor": {
+        "ACCENT COLOR": "COLOR D'ACCENT",
+        "PRESET": "PREDEFINIT",
+        "OPEN": "OBRE",
+        "White": "Blanc",
+        "NextUI Red": "Vermell NextUI",
+        "Red": "Vermell",
+        "Orange": "Taronja",
+        "Yellow": "Groc",
+        "Green": "Verd",
+        "Teal": "Verd blavós",
+        "Blue": "Blau",
+        "Purple": "Porpra",
+        "Pink": "Rosa",
+        "Hex color (RRGGBB)": "Color hexadecimal (RRGGBB)",
+        "Not a hex color - use 6 digits, e.g. F5C518": "No és un color hexadecimal: usa 6 xifres, p. ex. F5C518",
+        "Applying {color}...": "S'està aplicant {color}...",
+        "Updating other screen sizes...": "S'estan actualitzant les altres mides de pantalla...",
+        "Updating {folder}...": "S'està actualitzant {folder}...",
+        "This theme doesn't support Accent Color. Try NextUI Style.": "Aquest tema no admet el color d'accent. Prova NextUI Style.",
+        "Accent Color hit an error - see Saves/spruce/accentcolor log.": "Error al color d'accent: consulta el registre a Saves/spruce/accentcolor."
+    },
     "shellMessages": {
         "Check out the spruce wiki on our GitHub page for tips and FAQs!": "Consulta la wiki de spruce a la nostra pàgina de GitHub per trobar consells i preguntes freqüents!",
         "Spruce setup completed with warnings.\nSome themes may need attention.": "La configuració de spruce ha acabat amb avisos.\nPot ser que alguns temes necessitin atenció.",
